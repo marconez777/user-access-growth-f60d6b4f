@@ -10,16 +10,22 @@ export interface Database extends SupabaseDatabase {
           id: string;
           name: string;
           email: string;
+          created_at?: string;
+          updated_at?: string;
         };
         Insert: {
           id: string;
           name: string;
           email: string;
+          created_at?: string;
+          updated_at?: string;
         };
         Update: {
           id?: string;
           name?: string;
           email?: string;
+          created_at?: string;
+          updated_at?: string;
         };
       };
       user_subscriptions: {
