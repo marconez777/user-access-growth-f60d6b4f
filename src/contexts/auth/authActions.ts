@@ -35,13 +35,15 @@ export const signUp = async (
 
     if (data.user) {
       // Create profile record
-      const { error: profileError } = await supabase.from("profiles").insert([
-        {
-          id: data.user.id,
-          name,
-          email,
-        },
-      ]);
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert([
+          {
+            id: data.user.id,
+            name,
+            email,
+          },
+        ]);
       
       if (profileError) {
         console.error("Erro ao criar perfil:", profileError);
@@ -82,7 +84,7 @@ export const signIn = async (
     if (data.user) {
       // Check if user has an active subscription
       const { data: subscriptionData, error: subError } = await supabase
-        .from("user_subscriptions")
+        .from('user_subscriptions')
         .select("*")
         .eq("user_id", data.user.id)
         .eq("status", "active")

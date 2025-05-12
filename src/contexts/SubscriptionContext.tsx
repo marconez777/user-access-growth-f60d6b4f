@@ -1,14 +1,13 @@
-
 import {
   ReactNode,
   createContext,
   useContext,
-  useEffect,
   useState,
+  useEffect,
 } from "react";
-import { useAuth } from "./AuthContext";
-import { createClient } from "@supabase/supabase-js";
-import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./auth";
 
 // Define plan types
 export type PlanType = "solo" | "discovery" | "escala";

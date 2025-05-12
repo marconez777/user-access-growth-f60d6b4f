@@ -1,6 +1,5 @@
-
 import { useEffect } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/auth";
 import { useSubscription } from "../contexts/SubscriptionContext";
 import MainLayout from "../components/Layout/MainLayout";
 import ToolCard from "../components/Tools/ToolCard";

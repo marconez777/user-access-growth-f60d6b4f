@@ -22,7 +22,7 @@ export const useAuthProvider = () => {
         
         if (data.session) {
           const { data: userData } = await supabase
-            .from("profiles")
+            .from('profiles')
             .select("*")
             .eq("id", data.session.user.id)
             .single();
@@ -50,7 +50,7 @@ export const useAuthProvider = () => {
       async (event, session) => {
         if (event === "SIGNED_IN" && session) {
           const { data: userData } = await supabase
-            .from("profiles")
+            .from('profiles')
             .select("*")
             .eq("id", session.user.id)
             .single();
