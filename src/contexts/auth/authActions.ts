@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -70,24 +71,24 @@ export const signIn = async (
     if (error) throw error;
 
     if (data.user) {
-      // Check if user has an active subscription
-      const { data: subscriptionData, error: subError } = await supabase
-        .from('user_subscriptions')
+      // Fetch user profile to check plano and status
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
         .select("*")
-        .eq("user_id", data.user.id)
-        .eq("status", "active")
+        .eq("id", data.user.id)
         .single();
-
-      if (subError && subError.code !== 'PGRST116') { // PGRST116 means no rows returned
-        console.error("Erro ao verificar assinatura:", subError);
+      
+      if (profileError) {
+        console.error("Erro ao buscar perfil:", profileError);
       }
-
-      if (!subscriptionData) {
+      
+      // Check if user has a valid subscription
+      if (profileData && (profileData.plano === 'free' || profileData.status !== 'ativo')) {
         toast.info("Você precisa ter um plano ativo para acessar. Redirecionando para página de planos.");
-        navigate("/plans"); // Redirect to plans page instead of signing out
+        navigate("/plans");
         return;
       }
-
+      
       toast.success("Login realizado com sucesso!");
       navigate("/dashboard");
     }

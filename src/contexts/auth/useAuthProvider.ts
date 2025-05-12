@@ -31,7 +31,10 @@ export const useAuthProvider = () => {
             setUser({
               id: userData.id,
               email: userData.email,
-              name: userData.name
+              name: userData.name,
+              plano: userData.plano,
+              status: userData.status,
+              vencimento: userData.vencimento
             });
           }
         }
@@ -59,7 +62,10 @@ export const useAuthProvider = () => {
             setUser({
               id: userData.id,
               email: userData.email,
-              name: userData.name
+              name: userData.name,
+              plano: userData.plano,
+              status: userData.status,
+              vencimento: userData.vencimento
             });
           }
         } else if (event === "SIGNED_OUT") {

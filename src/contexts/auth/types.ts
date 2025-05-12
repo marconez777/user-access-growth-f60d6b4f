@@ -3,6 +3,9 @@ export type User = {
   id: string;
   email: string;
   name: string;
+  plano?: string;
+  status?: string;
+  vencimento?: string;
 };
 
 export type AuthContextType = {
