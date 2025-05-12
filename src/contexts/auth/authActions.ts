@@ -48,6 +48,7 @@ export const signUp = async (
     setError(message);
     toast.error(message);
   } finally {
+    // Ensure loading state is reset regardless of outcome
     setLoading(false);
   }
 };
@@ -98,6 +99,7 @@ export const signIn = async (
     setError(message);
     toast.error(message);
   } finally {
+    // Always reset loading state, even if an exception occurs elsewhere
     setLoading(false);
   }
 };
@@ -120,6 +122,7 @@ export const signOut = async (
     setError(message);
     toast.error(message);
   } finally {
+    // Always reset loading state
     setLoading(false);
   }
 };
@@ -148,6 +151,7 @@ export const resetPassword = async (
     setError(message);
     toast.error(message);
   } finally {
+    // Ensure loading is always reset
     setLoading(false);
   }
 };

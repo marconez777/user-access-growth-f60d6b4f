@@ -65,7 +65,12 @@ const Register = () => {
     e.preventDefault();
     
     if (validateForm()) {
-      await signUp(name, email, password);
+      try {
+        await signUp(name, email, password);
+      } catch (err) {
+        // If there's an unhandled error, ensure we're not stuck in loading state
+        console.error("Unhandled registration error:", err);
+      }
     }
   };
 
@@ -100,6 +105,7 @@ const Register = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className={formErrors.name ? "border-red-500" : ""}
+                  disabled={loading}
                 />
                 {formErrors.name && (
                   <p className="text-xs text-red-500">{formErrors.name}</p>
@@ -115,6 +121,7 @@ const Register = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className={formErrors.email ? "border-red-500" : ""}
+                  disabled={loading}
                 />
                 {formErrors.email && (
                   <p className="text-xs text-red-500">{formErrors.email}</p>
@@ -131,11 +138,13 @@ const Register = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className={formErrors.password ? "border-red-500 pr-10" : "pr-10"}
+                    disabled={loading}
                   />
                   <button
                     type="button"
                     className="absolute right-3 top-1/2 transform -translate-y-1/2"
                     onClick={() => setShowPassword(!showPassword)}
+                    disabled={loading}
                   >
                     {showPassword ? (
                       <EyeOffIcon className="h-4 w-4 text-gray-500" />
@@ -158,6 +167,7 @@ const Register = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className={formErrors.confirmPassword ? "border-red-500" : ""}
+                  disabled={loading}
                 />
                 {formErrors.confirmPassword && (
                   <p className="text-xs text-red-500">{formErrors.confirmPassword}</p>
