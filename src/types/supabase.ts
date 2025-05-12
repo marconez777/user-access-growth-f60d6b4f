@@ -12,6 +12,9 @@ export interface Database extends SupabaseDatabase {
           email: string | null;
           created_at: string | null;
           updated_at: string | null;
+          plano: string;
+          status: string;
+          vencimento: string | null;
         };
         Insert: {
           id: string;
@@ -19,6 +22,9 @@ export interface Database extends SupabaseDatabase {
           email?: string | null;
           created_at?: string | null;
           updated_at?: string | null;
+          plano?: string;
+          status?: string;
+          vencimento?: string | null;
         };
         Update: {
           id?: string;
@@ -26,6 +32,9 @@ export interface Database extends SupabaseDatabase {
           email?: string | null;
           created_at?: string | null;
           updated_at?: string | null;
+          plano?: string;
+          status?: string;
+          vencimento?: string | null;
         };
         Relationships: [];
       };

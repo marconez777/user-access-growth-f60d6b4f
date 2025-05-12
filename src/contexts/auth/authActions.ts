@@ -83,7 +83,7 @@ export const signIn = async (
       }
       
       // Check if user has a valid subscription
-      if (profileData && (profileData.plano === 'free' || profileData.status !== 'ativo')) {
+      if (profileData && profileData.status !== 'ativo') {
         toast.info("Você precisa ter um plano ativo para acessar. Redirecionando para página de planos.");
         navigate("/plans");
         return;
