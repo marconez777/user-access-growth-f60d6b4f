@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import RegisterSuccess from "./pages/RegisterSuccess";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Plans from "./pages/Plans";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="/register-success" element={<RegisterSuccess />} />
               <Route path="/login" element={<Login />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/plans" element={<Plans />} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

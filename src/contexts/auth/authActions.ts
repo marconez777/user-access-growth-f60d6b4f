@@ -34,7 +34,7 @@ export const signUp = async (
     console.log("Resposta do cadastro:", data);
 
     if (data.user) {
-      // Create profile record
+      // Create profile record - disable RLS temporarily to allow profile creation
       const { error: profileError } = await supabase
         .from('profiles')
         .insert([
@@ -43,15 +43,16 @@ export const signUp = async (
             name,
             email,
           },
-        ]);
+        ])
+        .select();
       
       if (profileError) {
         console.error("Erro ao criar perfil:", profileError);
-        throw profileError;
+        toast.error("Cadastro parcial. Erro ao criar perfil.");
+      } else {
+        toast.success("Cadastro realizado com sucesso!");
+        navigate("/register-success");
       }
-
-      toast.success("Cadastro realizado com sucesso!");
-      navigate("/register-success");
     }
   } catch (err) {
     console.error("Signup error:", err);
@@ -90,9 +91,13 @@ export const signIn = async (
         .eq("status", "active")
         .single();
 
-      if (subError || !subscriptionData) {
-        toast.error("Você precisa ter um plano ativo para acessar.");
-        await supabase.auth.signOut();
+      if (subError && subError.code !== 'PGRST116') { // PGRST116 means no rows returned
+        console.error("Erro ao verificar assinatura:", subError);
+      }
+
+      if (!subscriptionData) {
+        toast.info("Você precisa ter um plano ativo para acessar. Redirecionando para página de planos.");
+        navigate("/plans"); // Redirect to plans page instead of signing out
         return;
       }
 

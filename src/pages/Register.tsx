@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,7 @@ const Register = () => {
     confirmPassword?: string;
   }>({});
   
-  const { signUp, loading } = useAuth();
+  const { signUp, loading, error } = useAuth();
 
   const validateForm = () => {
     const errors: {
@@ -81,6 +82,12 @@ const Register = () => {
             </Link>
           </p>
         </div>
+        
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <span className="block sm:inline">{error}</span>
+          </div>
+        )}
         
         <Card>
           <form onSubmit={handleSubmit}>
