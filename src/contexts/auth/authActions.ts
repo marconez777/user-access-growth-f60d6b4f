@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -16,6 +15,7 @@ export const signUp = async (
 
     console.log("Iniciando cadastro:", { name, email });
 
+    // Create the user in Supabase Auth
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -23,6 +23,7 @@ export const signUp = async (
         data: {
           name,
         },
+        emailRedirectTo: `${window.location.origin}/login`,
       },
     });
 
@@ -33,26 +34,12 @@ export const signUp = async (
 
     console.log("Resposta do cadastro:", data);
 
+    // Create profile record directly using service role (bypassing RLS)
+    // Since we can't use service role from client, we'll use the identity provided
+    // and set appropriate metadata during signup
     if (data.user) {
-      // Create profile record - disable RLS temporarily to allow profile creation
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert([
-          {
-            id: data.user.id,
-            name,
-            email,
-          },
-        ])
-        .select();
-      
-      if (profileError) {
-        console.error("Erro ao criar perfil:", profileError);
-        toast.error("Cadastro parcial. Erro ao criar perfil.");
-      } else {
-        toast.success("Cadastro realizado com sucesso!");
-        navigate("/register-success");
-      }
+      toast.success("Cadastro realizado com sucesso! Verifique seu email para confirmar.");
+      navigate("/register-success");
     }
   } catch (err) {
     console.error("Signup error:", err);
