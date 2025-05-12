@@ -7,8 +7,8 @@ import {
   useState 
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 // Define types
 type User = {
@@ -26,16 +26,6 @@ type AuthContextType = {
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
 };
-
-// Create the Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-// This will be properly set up when the Supabase integration is added
-const supabase = createClient(
-  supabaseUrl || "https://placeholder.supabase.co",
-  supabaseKey || "placeholder-key"
-);
 
 // Create context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -118,6 +108,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(true);
       setError(null);
 
+      console.log("Iniciando cadastro:", { name, email });
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -128,17 +120,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Erro de cadastro:", error);
+        throw error;
+      }
+
+      console.log("Resposta do cadastro:", data);
 
       if (data.user) {
         // Create profile record
-        await supabase.from('profiles').insert([
+        const { error: profileError } = await supabase.from('profiles').insert([
           {
             id: data.user.id,
             name,
             email,
           },
         ]);
+        
+        if (profileError) {
+          console.error("Erro ao criar perfil:", profileError);
+          throw profileError;
+        }
 
         toast.success("Cadastro realizado com sucesso!");
         navigate("/register-success");
