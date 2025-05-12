@@ -1,3 +1,4 @@
+
 import {
   ReactNode,
   createContext,
@@ -8,6 +9,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./auth";
+import { toast } from "sonner";
 
 // Define plan types
 export type PlanType = "solo" | "discovery" | "escala";
@@ -70,16 +72,6 @@ type SubscriptionContextType = {
   initiateMercadoPagoCheckout: (planType: PlanType) => Promise<string | null>;
   fetchSubscriptionStatus: () => Promise<void>;
 };
-
-// Create the Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-// This will be properly set up when the Supabase integration is added
-const supabase = createClient(
-  supabaseUrl || "https://placeholder.supabase.co",
-  supabaseKey || "placeholder-key"
-);
 
 // Define plan limits
 const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
