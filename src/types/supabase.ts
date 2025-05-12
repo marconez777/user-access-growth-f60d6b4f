@@ -8,22 +8,22 @@ export interface Database extends SupabaseDatabase {
       profiles: {
         Row: {
           id: string;
-          name: string;
-          email: string;
-          created_at?: string | null;
-          updated_at?: string | null;
+          name: string | null;
+          email: string | null;
+          created_at: string | null;
+          updated_at: string | null;
         };
         Insert: {
           id: string;
-          name: string;
-          email: string;
+          name?: string | null;
+          email?: string | null;
           created_at?: string | null;
           updated_at?: string | null;
         };
         Update: {
           id?: string;
-          name?: string;
-          email?: string;
+          name?: string | null;
+          email?: string | null;
           created_at?: string | null;
           updated_at?: string | null;
         };
